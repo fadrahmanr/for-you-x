@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>A Tiny Birthday Website 🍌</title>
+<style>
+:root{--ink:#33251f;--muted:#806e64;--accent:#e85d75;--green:#557a5d}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;font-family:ui-rounded,"SF Pro Rounded","Avenir Next",system-ui,sans-serif;color:var(--ink);background:linear-gradient(145deg,#fff8e8,#fff3f5 55%,#eef6ee)}
+main{min-height:100vh;display:grid;place-items:center;padding:18px}
+.card{width:min(680px,100%);background:#fffffff0;border-radius:30px;padding:clamp(25px,6vw,52px);box-shadow:0 24px 70px #52322421;text-align:center;overflow:hidden}
+.badge{display:inline-block;padding:8px 13px;border-radius:999px;background:#fff1bd;font-size:.78rem;font-weight:800;letter-spacing:.07em;text-transform:uppercase}
+h1{font-size:clamp(2.1rem,8vw,4rem);line-height:.98;margin:18px 0 14px}
+h2{font-size:clamp(1.8rem,6vw,3rem);line-height:1.05;margin:16px 0 10px}
+p{font-size:1.05rem;line-height:1.65;color:var(--muted);max-width:540px;margin:10px auto}
+.tiny{font-size:.74rem} .emoji{font-size:4rem;display:block;animation:bob 2.5s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-8px) rotate(3deg)}}
+.btns{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:25px;min-height:52px}
+button{border:0;border-radius:16px;padding:14px 21px;font:inherit;font-weight:800;cursor:pointer;background:#f1ebe6;transition:.2s}
+.primary{background:var(--accent);color:white;box-shadow:0 9px 22px #e85d7545}
+.giftlist,.benefits{text-align:left;max-width:480px;margin:24px auto}
+.gift,.benefits div{padding:11px 12px;border-bottom:1px dashed #e6d8c6}
+.benefits div{background:#f8f5f1;border:0;border-radius:14px;margin:8px}
+.available{font-weight:900;color:var(--green)} .screen{display:none;animation:fade .45s} .screen.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(10px)}}
+.loader{font-family:ui-monospace,monospace;text-align:left;background:#2f2926;color:#fff6df;border-radius:18px;padding:18px;max-width:470px;margin:22px auto}
+.line{opacity:0;margin:8px} .line.show{opacity:1} .approved{color:#bff0c8;font-weight:900}
+.stamp{margin-top:25px;font-size:.75rem;letter-spacing:.12em;color:#aa9184}
+.confetti{position:fixed;top:-30px;pointer-events:none;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg)}}
+.gif{width:min(360px,100%);border-radius:18px;margin:18px auto 8px;display:block;box-shadow:0 12px 28px #0001}
+.love-frame{position:relative;margin:26px auto 10px;width:min(520px,100%);padding:14px;border-radius:28px;background:linear-gradient(135deg,#ffd8e2,#fff0b5,#dff2df,#ffd8e2);box-shadow:0 18px 45px #8b4b5b2b}
+.love-frame:before,.love-frame:after{content:"❤";position:absolute;font-size:30px;color:#e85d75;background:#fff;border-radius:50%;width:48px;height:48px;display:grid;place-items:center;box-shadow:0 8px 20px #0002}
+.love-frame:before{left:-10px;top:-10px;transform:rotate(-12deg)} .love-frame:after{right:-10px;bottom:-10px;transform:rotate(12deg)}
+.love-frame img{width:100%;display:block;border-radius:20px;aspect-ratio:4/5;object-fit:cover}
+.final-copy{font-size:1.08rem;color:#5f4c43}
+@media(max-width:520px){.card{border-radius:24px;padding:28px 18px}}
+</style></head>
+<body><main><section class="card">
+
+<div class="screen active" id="s0">
+<span class="emoji">🍌</span><span class="badge">A very serious birthday website</span>
+<h1>HAPPY BIRTHDAY 🎂</h1>
+<p>Congratulations on surviving another year</p>
+<img class="gif" src="https://media1.tenor.com/m/v3QmNho_0C4AAAAd/community-donald-glover.gif" alt="A funny Community reaction GIF">
+<p>I was going to just say happy birthday like a normal person.<br><strong>But I am special what can I say HEHE</strong></p>
+<div class="btns"><button class="primary" onclick="go(1)">Open your present 🎁</button></div>
+<div class="stamp">10 · 09 · 2026 — made specifically for you</div>
+</div>
+
+<div class="screen" id="s1">
+<span class="emoji">🎁</span><span class="badge">Your birthday gifts</span>
+<h2>Let's see what we have...</h2>
+<div class="giftlist">
+<div class="gift">🍌 Banana bread — ❌ umm you can make it yourself</div>
+<div class="gift">🎁 Actual present — ⏳ thanks to PostNL</div>
+<div class="gift">💌 Questionable life decision — <span class="available">✅ AVAILABLE NOW</span></div>
+</div>
+<button class="primary" onclick="go(2)">Claim your gift 🎁</button>
+</div>
+
+<div class="screen" id="s2">
+<span class="emoji">💌</span><span class="badge">Question 1 of 2</span>
+<h2>I actually have a question...</h2>
+<p style="font-size:1.45rem;color:var(--ink);font-weight:900">Do you want to be my boyfriend? <span style="font-size:.9rem">Try click no :P</span></p>
+<div class="btns"><button class="primary" onclick="boyfriendYes()">YES ❤️</button><button id="no1" onclick="nope(1)">No</button></div>
+<p class="tiny" id="hint1"></p>
+</div>
+
+<div class="screen" id="s3">
+<span class="badge">Application received</span><h2>Excellent choice.</h2>
+<p>Your boyfriend application has been successfully submitted.</p>
+<div class="loader" id="loader">
+<div class="line">› Reviewing boyfriend application...</div>
+<div class="line">› Checking qualifications...</div>
+<div class="line">› Checking vibes...</div>
+<div class="line">› Verifying banana bread entitlement...</div>
+<div class="line">› Calculating distance until next month...</div>
+<div class="line approved">✓ APPROVED</div>
+</div>
+<button class="primary" id="continue" style="display:none" onclick="go(4)">View benefits →</button>
+</div>
+
+<div class="screen" id="s4">
+<span class="emoji">✅</span><span class="badge">Boyfriend application approved</span>
+<h2>Your benefits package</h2>
+<div class="benefits"><div>✓ Someone to bother you</div><div>✓ A potential date next month</div><div>✓ Birthday privileges</div><div>✓ Banana bread*</div></div>
+<p class="tiny">*Terms and conditions apply. Banana bread availability is subject to geographical distance.</p>
+<p><strong>One more question hehe.</strong></p>
+<button class="primary" onclick="go(5)">Continue →</button>
+</div>
+
+<div class="screen" id="s5">
+<span class="emoji">🗓️</span><span class="badge">Question 2 of 2</span>
+<h2>CAN WE GO ON A DATE?</h2><p><strong>(next month lol — I don't typically take no, but you can try)</strong></p>
+<div class="btns"><button class="primary" onclick="dateYes()">YES 💕</button><button id="no2" onclick="nope(2)">No</button></div>
+<p class="tiny" id="hint2"></p>
+</div>
+
+<div class="screen" id="s6">
+<span class="emoji">🎉</span><span class="badge">Birthday achievement unlocked</span>
+<h1>IT'S A DATE!</h1>
+<p>Happy birthday again ×1000 — I am enjoying this.</p>
+<div class="benefits"><div>🎂 +1 year older</div><div>❤️ +1 girlfriend</div><div>🗓️ +1 upcoming date</div><div>🍌 +1 banana bread pending</div></div>
+
+
+<div class="love-frame"><img src="our_photo.jpg" alt="Our photo"></div>
+<p class="final-copy"><strong>More happiness, fulfilment in life, peace and zen, many more dates, banana bread, memories, and LET'S SETTLE when the time comes HAHAHA #ambitious</strong></p>
+<p style="font-size:1.45rem;color:var(--ink);font-weight:900">ILY ❤️</p>
+<div class="stamp">10 · 09 · 2026</div>
+</div>
+
+</section></main>
+<script>
+let a=0,b=0;
+const A=["Are you sure? 😭","On your birthday???","That's kinda rude","Wrong button","Try the pink one","I'm literally coding for this*","Fine 🙄"];
+const B=["Check your calendar first","I said NEXT MONTH 😭","You have time to prepare","Please reconsider","This button appears to be broken","Nice try"];
+function go(n){document.querySelectorAll(".screen").forEach(x=>x.classList.remove("active"));document.getElementById("s"+n).classList.add("active");window.scrollTo({top:0,behavior:"smooth"})}
+function nope(w){let c=w===1?a++:b++,el=document.getElementById("no"+w),arr=w===1?A:B;el.textContent=arr[c%arr.length];if(w===1&&c===5)document.getElementById("hint1").textContent="*GitHub Pages is free. But still.";el.style.transform=`translate(${Math.random()*100-50}px,${Math.random()*40-20}px) scale(${Math.max(.75,1-c*.04)})`}
+function boyfriendYes(){go(3);let ls=[...document.querySelectorAll(".line")],i=0,t=setInterval(()=>{if(i<ls.length)ls[i++].classList.add("show");else{clearInterval(t);document.getElementById("continue").style.display="inline-block"}},480)}
+function dateYes(){go(6);let x=["❤️","🍌","✨","🎉","💕"];for(let i=0;i<40;i++){let e=document.createElement("div");e.className="confetti";e.textContent=x[Math.floor(Math.random()*x.length)];e.style.left=Math.random()*100+"vw";e.style.animationDuration=2.5+Math.random()*3+"s";document.body.appendChild(e);setTimeout(()=>e.remove(),6000)}}
+</script></body></html>
